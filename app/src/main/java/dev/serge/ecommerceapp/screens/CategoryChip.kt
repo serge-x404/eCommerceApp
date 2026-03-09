@@ -3,7 +3,10 @@ package dev.serge.ecommerceapp.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -38,14 +41,16 @@ fun CategoryChip(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 12.dp)
+            modifier = Modifier
+                .padding(12.dp)
         ) {
             Icon(
                 painter = rememberAsyncImagePainter(icon),
                 contentDescription = text,
+                modifier = Modifier.size(16.dp),
                 tint = if (isSelected) Color.White else Color.Black
             )
-
+            Spacer(Modifier.width(8.dp))
             Text(
                 text,
                 color = if (isSelected) Color.White else Color.Black
