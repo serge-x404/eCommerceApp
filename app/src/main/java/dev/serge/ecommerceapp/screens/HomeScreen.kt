@@ -8,7 +8,8 @@ import androidx.compose.ui.Modifier
 @Composable
 fun HomeScreen() {
     Scaffold(
-        topBar = { MyTopAppBar() }
+        topBar = { MyTopAppBar() },
+        bottomBar = { BottomNavigationBar() }
     ) { it ->
         Modifier.padding(it)
     }
