@@ -1,4 +1,4 @@
-package dev.serge.ecommerceapp.screens
+package dev.serge.ecommerceapp.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import dev.serge.ecommerceapp.model.Categories
+import dev.serge.ecommerceapp.model.Product
 
 @Composable
 fun HomeScreen() {
@@ -75,11 +76,25 @@ fun HomeScreen() {
                 }
             }
             Spacer(Modifier.height(16.dp))
-            Spacer(Modifier.height(16.dp))
             SectionTitle(
                 "Featured",
                 "See All"
             ) {}
+            Spacer(Modifier.height(16.dp))
+
+            val productList = listOf(
+                Product("1","Television",1200.00,"https://cdn-icons-png.flaticon.com/128/1530/1530484.png"),
+                Product("2","Laptop",1200.00,"https://cdn-icons-png.flaticon.com/128/610/610021.png")
+            )
+
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(productList){product ->
+                    FeaturedProductCard(product) { }
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package dev.serge.ecommerceapp.screens
+package dev.serge.ecommerceapp.screens.home
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
