@@ -17,13 +17,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Categories
 import dev.serge.ecommerceapp.model.Product
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavController,
+    onProfileClick: () -> Unit,
+    onCartClick: () -> Unit
+) {
     Scaffold(
-        topBar = { MyTopAppBar() },
+        topBar = { MyTopAppBar(onProfileClick, onCartClick) },
         bottomBar = { BottomNavigationBar() }
     ) { it ->
         Column(modifier =

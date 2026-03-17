@@ -18,10 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Product
 
 @Composable
-fun CartScreen() {
+fun CartScreen(navController: NavController) {
     val cartItems = listOf(
         Product("2","Laptop",1200.00,"https://cdn-icons-png.flaticon.com/128/610/610021.png")
     )
