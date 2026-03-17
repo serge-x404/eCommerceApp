@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.serge.ecommerceapp.screens.cart.CartScreen
+import dev.serge.ecommerceapp.screens.categories.CategoryScreen
 import dev.serge.ecommerceapp.screens.home.HomeScreen
 import dev.serge.ecommerceapp.screens.profile.ProfileScreen
 import dev.serge.ecommerceapp.ui.theme.ECommerceAppTheme
@@ -41,6 +42,12 @@ class MainActivity : ComponentActivity() {
                     ProfileScreen(
                         navController = navController,
                         onSignOut = {}
+                    )
+                }
+
+                composable("Categories") {
+                    CategoryScreen(
+                        navController = navController
                     )
                 }
             }

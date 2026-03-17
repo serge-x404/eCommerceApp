@@ -99,7 +99,6 @@ fun CartScreen(navController: NavController) {
                 onClick = { },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(15.dp)
             ) {
                 Text("Proceed to Checkout")
             }

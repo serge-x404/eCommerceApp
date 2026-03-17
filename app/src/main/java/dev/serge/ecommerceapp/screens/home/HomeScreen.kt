@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import dev.serge.ecommerceapp.model.Categories
+import dev.serge.ecommerceapp.model.Category
 import dev.serge.ecommerceapp.model.Product
 
 @Composable
@@ -55,12 +55,13 @@ fun HomeScreen(
 
             SectionTitle(
                 "Categories",
-                "See All"
-            ) {}
+                "See All",
+                { navController.navigate("Categories") }
+            )
 
-            val categories: List<Categories> = listOf(
-                Categories(1,"Electronics","https://cdn-icons-png.flaticon.com/128/12539/12539860.png"),
-                Categories(2,"Clothing","https://cdn-icons-png.flaticon.com/128/2954/2954918.png"),
+            val categories: List<Category> = listOf(
+                Category(1,"Electronics","https://cdn-icons-png.flaticon.com/128/12539/12539860.png"),
+                Category(2,"Clothing","https://cdn-icons-png.flaticon.com/128/2954/2954918.png"),
             )
 
             val selectedCategory = remember { mutableStateOf(0) }
@@ -83,7 +84,7 @@ fun HomeScreen(
             Spacer(Modifier.height(16.dp))
             SectionTitle(
                 "Featured",
-                "See All"
+                "See All",
             ) {}
             Spacer(Modifier.height(16.dp))
 

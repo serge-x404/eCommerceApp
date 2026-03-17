@@ -59,24 +59,25 @@ fun CartItemCard(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 6.dp)
                     ) {
                         Text(
                             item.name,
                             modifier = Modifier
-                                .padding(horizontal = 8.dp),
+                                .padding(horizontal = 8.dp)
+                                .weight(1f),
                             style = MaterialTheme.typography.bodyLarge
                         )
-                    }
-
-                    IconButton(
-                        onClick = onRemoveItem,
-                        modifier = Modifier.size(24.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Remove Item"
-                        )
+                        IconButton(
+                            onClick = onRemoveItem,
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Remove Item"
+                            )
+                        }
                     }
                 }
             }
