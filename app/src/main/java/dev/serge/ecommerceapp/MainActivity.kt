@@ -14,6 +14,7 @@ import dev.serge.ecommerceapp.screens.navigation.Screens
 import dev.serge.ecommerceapp.screens.products.ProductDetailsScreen
 import dev.serge.ecommerceapp.screens.products.ProductScreen
 import dev.serge.ecommerceapp.screens.profile.ProfileScreen
+import dev.serge.ecommerceapp.screens.profile.SignUpScreen
 import dev.serge.ecommerceapp.ui.theme.ECommerceAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -69,6 +70,17 @@ class MainActivity : ComponentActivity() {
                             navController
                         )
                     }
+                }
+
+                composable(Screens.SignUp.route) {
+                    SignUpScreen(
+                        onNavigateToLogin = {
+                            navController.navigate(Screens.Login.route)
+                        },
+                        onSignUpSuccess = {
+                            navController.navigate(Screens.Home.route)
+                        }
+                    )
                 }
             }
         }

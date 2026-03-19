@@ -22,22 +22,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SignUpScreen(
-    onNavigateToLogin: () -> Unit,
-    onSignUpSuccess: () -> Unit
+fun LoginScreen(
+    navigateToSignUp: () -> Unit,
+    onLoginSuccess: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    var passwordError by remember { mutableStateOf<String?>(null) }
 
-    val authState = true
+    val authState = false
 
-    if (authState) onSignUpSuccess()
+    if (authState) {
+        onLoginSuccess()
+    }
 
     Column(
         modifier = Modifier
@@ -47,89 +46,52 @@ fun SignUpScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            "Create Account",
+            "Login Screen",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {email = it},
             label = { Text("Email") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            singleLine = true
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            )
         )
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {password = it},
             label = { Text("Password") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Next
-            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            singleLine = true
-        )
-
-        OutlinedTextField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            label = { Text("Confirm Password") },
-            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            singleLine = true,
-            isError = passwordError != null,
-            supportingText = {
-                passwordError?.let {
-                    Text(
-                        it,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            }
+            )
         )
 
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = {
-                if (password != confirmPassword) {
-                    passwordError = "Password do not match"
-                } else if (password.length < 6) {
-                    passwordError = "Password should be of at least 6 characters"
-                } else {
-                    passwordError = null
-                }
-            },
+            onClick = {},
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
-//            enabled = email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
+                .height(50.dp)
         ) {
-            Text(
-                "Sign Up"
-            )
+            Text("Login")
         }
 
         Spacer(Modifier.height(16.dp))
 
-        TextButton(onClick = onNavigateToLogin) {
-            Text("Already have an account? Login")
+        TextButton(onClick = navigateToSignUp) {
+            Text("Don't have an account? Sign Up")
         }
     }
 }
