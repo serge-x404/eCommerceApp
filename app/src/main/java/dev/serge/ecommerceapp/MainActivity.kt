@@ -10,6 +10,9 @@ import androidx.navigation.compose.rememberNavController
 import dev.serge.ecommerceapp.screens.cart.CartScreen
 import dev.serge.ecommerceapp.screens.categories.CategoryScreen
 import dev.serge.ecommerceapp.screens.home.HomeScreen
+import dev.serge.ecommerceapp.screens.navigation.Screens
+import dev.serge.ecommerceapp.screens.products.ProductDetailsScreen
+import dev.serge.ecommerceapp.screens.products.ProductScreen
 import dev.serge.ecommerceapp.screens.profile.ProfileScreen
 import dev.serge.ecommerceapp.ui.theme.ECommerceAppTheme
 
@@ -24,31 +27,48 @@ class MainActivity : ComponentActivity() {
 
             NavHost(
                 navController = navController,
-                startDestination = "Home"
+                startDestination = Screens.Home.route
             ) {
-                composable("Home") {
+                composable(Screens.Home.route) {
                     HomeScreen(
                         navController = navController,
-                        onProfileClick = { navController.navigate("Profile") },
-                        onCartClick = { navController.navigate("Cart") }
+                        onProfileClick = { navController.navigate(Screens.Profile.route) },
+                        onCartClick = { navController.navigate(Screens.Cart.route) }
                     )
                 }
 
-                composable("Cart") {
+                composable(Screens.Cart.route) {
                     CartScreen(navController = navController)
                 }
 
-                composable("Profile") {
+                composable(Screens.Profile.route) {
                     ProfileScreen(
                         navController = navController,
                         onSignOut = {}
                     )
                 }
 
-                composable("Categories") {
+                composable(Screens.Categories.route) {
                     CategoryScreen(
                         navController = navController
                     )
+                }
+
+                composable(Screens.ProductDetails.route) {
+                    val productId = it.arguments?.getString("productId")
+                    if (productId != null) {
+                        ProductDetailsScreen(productId)
+                    }
+                }
+
+                composable(Screens.ProductList.route) {
+                    val categoryId = it.arguments?.getString("categoryId")
+                    if (categoryId != null) {
+                        ProductScreen(
+                            categoryId,
+                            navController
+                        )
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-package dev.serge.ecommerceapp.screens.profile
+package dev.serge.ecommerceapp.model
 
 data class UserProfile(
     val uid: String = "",

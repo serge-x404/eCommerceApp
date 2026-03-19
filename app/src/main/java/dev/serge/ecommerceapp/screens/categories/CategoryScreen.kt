@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Category
+import dev.serge.ecommerceapp.screens.navigation.Screens
 
 @Composable
 fun CategoryScreen(
@@ -64,7 +65,7 @@ fun CategoryScreen(
             items(categories) {category ->
                 CategoryItem(category = category,
                     onClick = {
-//                        navController.navigate()
+                        navController.navigate(Screens.ProductList.createRoute(category.id.toString()))
                     })
             }
         }

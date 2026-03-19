@@ -13,10 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Product
+import dev.serge.ecommerceapp.screens.navigation.Screens
 
 @Composable
 fun ProductScreen(
-    categoryId: Int,
+    categoryId: String,
     navController: NavController
 ) {
     // Fetch products from VM
@@ -48,7 +49,7 @@ fun ProductScreen(
                 items(products) {product ->
                     ProductItem(
                         product = product,
-                        onClick = {},
+                        onClick = {navController.navigate(Screens.ProductDetails.createRoute(product.id))},
                         onAddToCart = {}
                     )
                 }
