@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 
     id("com.google.gms.google-services")
+
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -63,11 +66,25 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.4.0")
 
     // Navigation library
-    val nav_version = "2.9.7"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+//    val nav_version = "2.9.7"
+//    implementation("androidx.navigation:navigation-compose:$nav_version")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.11.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.59.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.59.2")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+
+    // ROOM database
+    val room_version = "2.8.4"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:${room_version}")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
 }
