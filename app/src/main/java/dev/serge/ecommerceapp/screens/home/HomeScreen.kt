@@ -12,20 +12,27 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Category
 import dev.serge.ecommerceapp.model.Product
+import dev.serge.ecommerceapp.screens.navigation.Screens
+import dev.serge.ecommerceapp.viewmodels.CategoryViewModel
+import dev.serge.ecommerceapp.viewmodels.ProductViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController,
     onProfileClick: () -> Unit,
-    onCartClick: () -> Unit
+    onCartClick: () -> Unit,
+    productViewModel: ProductViewModel = hiltViewModel(),
+    categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = { MyTopAppBar(onProfileClick, onCartClick) },
@@ -59,10 +66,8 @@ fun HomeScreen(
                 { navController.navigate("Categories") }
             )
 
-            val categories: List<Category> = listOf(
-                Category(1,"Electronics","https://cdn-icons-png.flaticon.com/128/12539/12539860.png"),
-                Category(2,"Clothing","https://cdn-icons-png.flaticon.com/128/2954/2954918.png"),
-            )
+            val categoriesState = categoryViewModel.categories.collectAsState()
+            val categories = categoriesState.value
 
             val selectedCategory = remember { mutableStateOf(0) }
 
@@ -88,17 +93,21 @@ fun HomeScreen(
             ) {}
             Spacer(Modifier.height(16.dp))
 
-            val productList = listOf(
-                Product("1","Television",1200.00,"https://cdn-icons-png.flaticon.com/128/1530/1530484.png"),
-                Product("2","Laptop",1200.00,"https://cdn-icons-png.flaticon.com/128/610/610021.png")
-            )
+            productViewModel.getAllProductsInFirestore()
+
+            val products = productViewModel.allProducts.collectAsState()
+            val allProductsFound = products.value
 
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(productList){product ->
-                    FeaturedProductCard(product) { }
+                items(allProductsFound){product ->
+                    FeaturedProductCard(product) {
+                        navController.navigate(
+                            Screens.ProductDetails.createRoute(product.id)
+                        )
+                    }
                 }
             }
         }

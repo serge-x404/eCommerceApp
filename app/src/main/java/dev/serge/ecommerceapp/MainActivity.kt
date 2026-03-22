@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import dev.serge.ecommerceapp.screens.cart.CartScreen
 import dev.serge.ecommerceapp.screens.categories.CategoryScreen
 import dev.serge.ecommerceapp.screens.home.HomeScreen
@@ -17,6 +18,7 @@ import dev.serge.ecommerceapp.screens.profile.ProfileScreen
 import dev.serge.ecommerceapp.screens.profile.SignUpScreen
 import dev.serge.ecommerceapp.ui.theme.ECommerceAppTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
