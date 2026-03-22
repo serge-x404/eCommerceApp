@@ -9,23 +9,29 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Product
 import dev.serge.ecommerceapp.screens.navigation.Screens
+import dev.serge.ecommerceapp.viewmodels.ProductViewModel
 
 @Composable
 fun ProductScreen(
     categoryId: String,
-    navController: NavController
+    navController: NavController,
+    productViewModel: ProductViewModel = hiltViewModel()
 ) {
-    // Fetch products from VM
-    val products = listOf(
-        Product("1","Smartphone",12000.00,"https://cdn-icons-png.flaticon.com/128/186/186239.png"),
-        Product("2","Laptop",24000.00,"https://cdn-icons-png.flaticon.com/128/6062/6062646.png"),
-        Product("3","Headphones",599.00,"https://cdn-icons-png.flaticon.com/128/3791/3791429.png"),
-    )
+
+    LaunchedEffect(categoryId) {
+        productViewModel.fetchProducts(categoryId)
+    }
+
+    val productState = productViewModel.products.collectAsState()
+    val products = productState.value
 
     Column(modifier = Modifier.fillMaxSize()) {
         Text(

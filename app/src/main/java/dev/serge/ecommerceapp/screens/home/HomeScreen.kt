@@ -63,7 +63,7 @@ fun HomeScreen(
             SectionTitle(
                 "Categories",
                 "See All",
-                { navController.navigate("Categories") }
+                { navController.navigate(Screens.Categories.route) }
             )
 
             val categoriesState = categoryViewModel.categories.collectAsState()
@@ -81,7 +81,10 @@ fun HomeScreen(
                         text = categories[it].name,
                         isSelected = selectedCategory.value == it,
                         onClick = {
-                            selectedCategory.value = it
+                            selectedCategory.value = categories[it].id
+                            navController.navigate(Screens.ProductList
+                                .createRoute(selectedCategory.value.toString())
+                            )
                         }
                     )
                 }

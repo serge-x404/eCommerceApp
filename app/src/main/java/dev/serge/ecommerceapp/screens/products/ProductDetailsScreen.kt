@@ -2,6 +2,7 @@ package dev.serge.ecommerceapp.screens.products
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,28 +18,41 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.rememberAsyncImagePainter
 import dev.serge.ecommerceapp.model.Product
+import dev.serge.ecommerceapp.viewmodels.ProductDetailsViewModel
 
 @Composable
 fun ProductDetailsScreen(
-    productId: String
+    productId: String,
+    productDetailsViewModel: ProductDetailsViewModel = hiltViewModel()
 ) {
-    val dummyProduct = Product(
-        "1",
-        "Laptop",
-        1299.00,
-        "https://cdn-icons-png.flaticon.com/128/6062/6062646.png"
-    )
 
-    if (dummyProduct == null) {
-        Text("Product not found")
+    LaunchedEffect(productId) {
+        productDetailsViewModel.fetchProductDetails(productId)
+    }
+
+    val productState = productDetailsViewModel.product.collectAsState()
+    val product = productState.value
+
+    if (product == null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Product not found")
+        }
     }
     else {
 
@@ -48,7 +62,7 @@ fun ProductDetailsScreen(
                 .padding(16.dp)
         ) {
             Image(
-                painter = rememberAsyncImagePainter(dummyProduct.imageURL),
+                painter = rememberAsyncImagePainter(product.imageURL),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -60,7 +74,7 @@ fun ProductDetailsScreen(
             Spacer(Modifier.height(16.dp))
 
             Text(
-                dummyProduct.name,
+                product.name,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -68,7 +82,7 @@ fun ProductDetailsScreen(
             Spacer(Modifier.height(8.dp))
 
             Text(
-                "$${dummyProduct.price}",
+                "$${product.price}",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -76,7 +90,7 @@ fun ProductDetailsScreen(
             Spacer(Modifier.height(16.dp))
 
             Text(
-                dummyProduct.categoryId ?: "No product found",
+                product.categoryId ?: "No product found",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
