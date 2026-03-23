@@ -93,7 +93,7 @@ fun HomeScreen(
             SectionTitle(
                 "Featured",
                 "See All",
-            ) {}
+            ) {navController.navigate(Screens.Categories.route)}
             Spacer(Modifier.height(16.dp))
 
             productViewModel.getAllProductsInFirestore()
