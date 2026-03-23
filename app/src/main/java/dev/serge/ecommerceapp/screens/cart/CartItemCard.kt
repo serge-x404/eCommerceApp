@@ -60,15 +60,23 @@ fun CartItemCard(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 6.dp)
+                        modifier = Modifier
+                            .padding(horizontal = 6.dp)
                     ) {
-                        Text(
-                            item.name,
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .weight(1f),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                item.name,
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp),
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                            Text(
+                                "${item.price}",
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp),
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
                         IconButton(
                             onClick = onRemoveItem,
                             modifier = Modifier.size(24.dp)

@@ -14,18 +14,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Product
+import dev.serge.ecommerceapp.viewmodels.CartViewModel
 
 @Composable
-fun CartScreen(navController: NavController) {
-    val cartItems = listOf(
-        Product("2","Laptop",1200.00,"https://cdn-icons-png.flaticon.com/128/610/610021.png")
-    )
+fun CartScreen(
+    navController: NavController,
+    cartViewModel: CartViewModel = hiltViewModel()
+) {
+    val cartItemsState = cartViewModel.cartItems.collectAsState(initial = emptyList())
+    val cartItems = cartItemsState.value
 
     Column(
         modifier = Modifier
@@ -53,7 +58,7 @@ fun CartScreen(navController: NavController) {
                 Spacer(Modifier.height(16.dp))
 
                 Button(
-                    onClick = {}
+                    onClick = { navController.popBackStack() }
                 ) {
                     Text("Continue Shopping")
                 }
@@ -65,7 +70,9 @@ fun CartScreen(navController: NavController) {
                 items(cartItems) {item ->
                     CartItemCard(
                         item = item,
-                        onRemoveItem = {}
+                        onRemoveItem = {
+                            cartViewModel.deleteFromCart(item)
+                        }
                     )
                 }
             }
@@ -87,7 +94,7 @@ fun CartScreen(navController: NavController) {
 
                 // Call VM for total calculation
                 Text(
-                    "...$",
+                    "$${cartViewModel.calculateTotal(cartItems)}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )

@@ -1,7 +1,6 @@
 package dev.serge.ecommerceapp.repository
 
 import android.util.Log
-import android.widget.Toast
 import dev.serge.ecommerceapp.model.Product
 import dev.serge.ecommerceapp.room.CartDao
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +30,7 @@ class CartRepository @Inject constructor(
         cartDao.deleteCartItem(product)
     }
 
-    suspend fun clearCart(product: Product) {
+    suspend fun clearCart() {
         cartDao.clearCart()
     }
 }

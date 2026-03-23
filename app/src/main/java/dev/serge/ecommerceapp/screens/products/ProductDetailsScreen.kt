@@ -30,12 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.rememberAsyncImagePainter
 import dev.serge.ecommerceapp.model.Product
+import dev.serge.ecommerceapp.viewmodels.CartViewModel
 import dev.serge.ecommerceapp.viewmodels.ProductDetailsViewModel
 
 @Composable
 fun ProductDetailsScreen(
     productId: String,
-    productDetailsViewModel: ProductDetailsViewModel = hiltViewModel()
+    productDetailsViewModel: ProductDetailsViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
 
     LaunchedEffect(productId) {
@@ -97,7 +99,7 @@ fun ProductDetailsScreen(
         }
 
         IconButton(
-            onClick = {},
+            onClick = { cartViewModel.addToCart(product) },
             modifier = Modifier
                 .padding(16.dp)
                 .background(MaterialTheme.colorScheme.primary, shape = CircleShape)

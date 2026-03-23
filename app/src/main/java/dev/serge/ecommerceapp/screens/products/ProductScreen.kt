@@ -1,5 +1,6 @@
 package dev.serge.ecommerceapp.screens.products
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,13 +18,15 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.Product
 import dev.serge.ecommerceapp.screens.navigation.Screens
+import dev.serge.ecommerceapp.viewmodels.CartViewModel
 import dev.serge.ecommerceapp.viewmodels.ProductViewModel
 
 @Composable
 fun ProductScreen(
     categoryId: String,
     navController: NavController,
-    productViewModel: ProductViewModel = hiltViewModel()
+    productViewModel: ProductViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
 
     LaunchedEffect(categoryId) {
@@ -56,7 +59,10 @@ fun ProductScreen(
                     ProductItem(
                         product = product,
                         onClick = {navController.navigate(Screens.ProductDetails.createRoute(product.id))},
-                        onAddToCart = {}
+                        onAddToCart = {
+                            cartViewModel.addToCart(product)
+                            Log.v("TAGY","Product added to cart")
+                        }
                     )
                 }
             }
