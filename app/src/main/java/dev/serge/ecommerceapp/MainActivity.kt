@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -14,9 +18,11 @@ import dev.serge.ecommerceapp.screens.home.HomeScreen
 import dev.serge.ecommerceapp.screens.navigation.Screens
 import dev.serge.ecommerceapp.screens.products.ProductDetailsScreen
 import dev.serge.ecommerceapp.screens.products.ProductScreen
+import dev.serge.ecommerceapp.screens.profile.LoginScreen
 import dev.serge.ecommerceapp.screens.profile.ProfileScreen
 import dev.serge.ecommerceapp.screens.profile.SignUpScreen
 import dev.serge.ecommerceapp.ui.theme.ECommerceAppTheme
+import dev.serge.ecommerceapp.viewmodels.AuthViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,6 +32,10 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val navController = rememberNavController()
+
+            val authViewModel: AuthViewModel = hiltViewModel()
+
+            val isLoggedIn by remember { derivedStateOf { authViewModel.isLoggedIn } }
 
 
             NavHost(
@@ -47,13 +57,25 @@ class MainActivity : ComponentActivity() {
                 composable(Screens.Profile.route) {
                     ProfileScreen(
                         navController = navController,
-                        onSignOut = {}
+                        onSignOut = {
+                            authViewModel.SignOut()
+                            navController.navigate(Screens.Login.route)
+                        }
                     )
                 }
 
                 composable(Screens.Categories.route) {
                     CategoryScreen(
-                        navController = navController
+                        navController = navController,
+                        onCartClick = { navController.navigate(Screens.Cart.route) },
+                        onProfileClick = {
+                            if (isLoggedIn) {
+                                navController.navigate(Screens.Profile.route)
+                            }
+                            else {
+                                navController.navigate(Screens.Login.route)
+                            }
+                        }
                     )
                 }
 
@@ -82,6 +104,13 @@ class MainActivity : ComponentActivity() {
                         onSignUpSuccess = {
                             navController.navigate(Screens.Home.route)
                         }
+                    )
+                }
+
+                composable(Screens.Login.route) {
+                    LoginScreen(
+                        navigateToSignUp = {navController.navigate(Screens.SignUp.route)},
+                        onLoginSuccess = {navController.navigate(Screens.Home.route)}
                     )
                 }
             }

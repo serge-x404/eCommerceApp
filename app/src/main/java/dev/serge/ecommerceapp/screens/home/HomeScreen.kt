@@ -36,7 +36,7 @@ fun HomeScreen(
 ) {
     Scaffold(
         topBar = { MyTopAppBar(onProfileClick, onCartClick) },
-        bottomBar = { BottomNavigationBar() }
+        bottomBar = { BottomNavigationBar(navController) }
     ) { it ->
         Column(modifier =
             Modifier

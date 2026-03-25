@@ -16,21 +16,25 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import dev.serge.ecommerceapp.screens.navigation.Screens
 
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(navController: NavController) {
 
     val currentRoute = ""
 
     val items = listOf(
-        BottomNavItems("Home", Icons.Default.Home, "Home"),
-        BottomNavItems("Categories", Icons.Default.Search, "Categories"),
-        BottomNavItems("Wishlist", Icons.Default.Favorite, "Cart", 5),
-        BottomNavItems("Cart", Icons.Default.ShoppingCart, "Cart",3),
-        BottomNavItems("Profile", Icons.Default.Person, "Profile")
+        BottomNavItems("Home", Icons.Default.Home, Screens.Home.route),
+        BottomNavItems("Categories", Icons.Default.Search, Screens.Categories.route),
+        BottomNavItems("Wishlist", Icons.Default.Favorite, Screens.Cart.route, 5),
+        BottomNavItems("Cart", Icons.Default.ShoppingCart, Screens.Cart.route,3),
+        BottomNavItems("Profile", Icons.Default.Person, Screens.Profile.route)
     )
 
 
@@ -39,10 +43,20 @@ fun BottomNavigationBar() {
         containerColor = MaterialTheme.colorScheme.background,
         tonalElevation = 8.dp
     ) {
+
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
         items.forEach {item ->
             NavigationBarItem(
                 selected = currentRoute == item.route,
-                onClick = {},
+                onClick = {
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+                    }
+                },
+                alwaysShowLabel = true,
                 icon = {
                     if (item.badge > 0) {
                         BadgedBox(badge = {

@@ -26,6 +26,8 @@ import dev.serge.ecommerceapp.viewmodels.CategoryViewModel
 @Composable
 fun CategoryScreen(
     navController: NavController,
+    onCartClick: () -> Unit,
+    onProfileClick: () -> Unit,
     categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
 
