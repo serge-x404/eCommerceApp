@@ -1,6 +1,9 @@
 package dev.serge.ecommerceapp.di
 
 import android.content.Context
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -37,4 +40,8 @@ object AppModule {
     fun provideCartRepository(cartDao: CartDao): CartRepository {
         return CartRepository(cartDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth = Firebase.auth
 }

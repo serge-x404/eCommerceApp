@@ -18,20 +18,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.serge.ecommerceapp.model.UserProfile
+import dev.serge.ecommerceapp.viewmodels.AuthViewModel
 
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
-    val currentUser = UserProfile("1", "serge", "serge@example.com")
+    val currentUser by remember { mutableStateOf(authViewModel.currentUser) }
 
     Column(
         modifier = Modifier
@@ -59,7 +65,7 @@ fun ProfileScreen(
         Spacer(Modifier.height(24.dp))
 
         Text(
-            currentUser.name,
+            currentUser?.name.toString(),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -67,7 +73,7 @@ fun ProfileScreen(
         Spacer(Modifier.height(8.dp))
 
         Text(
-            currentUser.email,
+            currentUser?.email.toString(),
             style = MaterialTheme.typography.bodyMedium
         )
 

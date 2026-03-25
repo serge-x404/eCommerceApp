@@ -14,6 +14,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,20 +26,27 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.serge.ecommerceapp.viewmodels.AuthViewModel
 
 @Composable
 fun SignUpScreen(
     onNavigateToLogin: () -> Unit,
-    onSignUpSuccess: () -> Unit
+    onSignUpSuccess: () -> Unit,
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var passwordError by remember { mutableStateOf<String?>(null) }
 
-    val authState = true
+    val authState by authViewModel.authState.collectAsState()
 
-    if (authState) onSignUpSuccess()
+    LaunchedEffect(authState) {
+        if (authState is AuthViewModel.AuthState.Success) {
+            onSignUpSuccess()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -114,12 +123,13 @@ fun SignUpScreen(
                     passwordError = "Password should be of at least 6 characters"
                 } else {
                     passwordError = null
+                    authViewModel.Signup(email, password)
                 }
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-//            enabled = email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
+            enabled = email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
         ) {
             Text(
                 "Sign Up"
