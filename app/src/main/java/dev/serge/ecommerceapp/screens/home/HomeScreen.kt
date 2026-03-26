@@ -25,6 +25,7 @@ import dev.serge.ecommerceapp.model.Product
 import dev.serge.ecommerceapp.screens.navigation.Screens
 import dev.serge.ecommerceapp.viewmodels.CategoryViewModel
 import dev.serge.ecommerceapp.viewmodels.ProductViewModel
+import dev.serge.ecommerceapp.viewmodels.SearchViewModel
 
 @Composable
 fun HomeScreen(
@@ -32,7 +33,8 @@ fun HomeScreen(
     onProfileClick: () -> Unit,
     onCartClick: () -> Unit,
     productViewModel: ProductViewModel = hiltViewModel(),
-    categoryViewModel: CategoryViewModel = hiltViewModel()
+    categoryViewModel: CategoryViewModel = hiltViewModel(),
+    searchViewModel: SearchViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = { MyTopAppBar(onProfileClick, onCartClick) },
@@ -51,14 +53,17 @@ fun HomeScreen(
                 query = searchQuery.value,
                 onQueryChange = {searchQuery.value = it},
                 onSearch = {
-                    /* Search Logic */
+                     searchViewModel.searchProducts(searchQuery.value)
+                    focusManager.clearFocus()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             )
 
-
+            if (searchQuery.value.isNotBlank()) {
+                SearchResultsSection(navController)
+            }
 
             SectionTitle(
                 "Categories",
